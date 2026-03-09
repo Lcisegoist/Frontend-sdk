@@ -7,9 +7,10 @@ export default class TrafficMysqlService extends Service {
 
   private getMysqlTableName = (appId: string) => createIndexName(this.app.config.appIndexName.page_traffics, appId);
 
-  private async getModel(appId: string): Promise<sequelize.ModelCtor<sequelize.Model<TrafficModelIn>>> {
+  private async getModel(appId: string): Promise<sequelize.ModelCtor<sequelize.Model<any>>> {
     const tableName = this.getMysqlTableName(appId);
-    const model = this.app.model.define(tableName, TrafficModel, {
+    // 使用 any 绕过 Sequelize 版本类型冲突问题
+    const model = (this.app.model as any).define(tableName, TrafficModel as any, {
       indexes: [
         {
           unique: true,
@@ -23,7 +24,7 @@ export default class TrafficMysqlService extends Service {
 
   async createTrafficTable(appId: string) {
     const tableName = this.getMysqlTableName(appId);
-    const model = this.app.model.define(tableName, TrafficModel, {
+    const model = (this.app.model as any).define(tableName, TrafficModel as any, {
       indexes: [
         {
           unique: true,

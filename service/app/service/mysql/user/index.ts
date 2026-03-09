@@ -3,9 +3,10 @@ import * as sequelize from 'sequelize';
 import { UserModelIn, UserModel } from './type';
 
 export default class AppMysqlService extends Service {
-  private async getModel(): Promise<sequelize.ModelCtor<sequelize.Model<UserModelIn>>> {
+  private async getModel(): Promise<sequelize.ModelCtor<sequelize.Model<any>>> {
     const tableName = 'user';
-    const model = this.app.model.define(tableName, UserModel);
+    // 使用 any 绕过 Sequelize 版本类型冲突问题
+    const model = (this.app.model as any).define(tableName, UserModel as any);
     const isExist = await this.service.redis.cache.getTableIsCreate(tableName);
     if (!isExist) {
       await model.sync();

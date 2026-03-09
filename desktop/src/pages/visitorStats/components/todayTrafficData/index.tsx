@@ -3,7 +3,7 @@ import styles from './index.module.less';
 import { TrafficItem } from './trafficItem';
 import { Card } from '@/src/components';
 import { getTodayTraffic } from '@/src/api';
-interface TodayTrafficDataIn{
+interface TodayTrafficDataIn {
   appId: string;
 }
 export const TodayTrafficData: React.FC<TodayTrafficDataIn> = ({ appId }) => {
@@ -14,7 +14,7 @@ export const TodayTrafficData: React.FC<TodayTrafficDataIn> = ({ appId }) => {
     newUsers: [0, 0],
     activeUsers: [0, 0],
   });
-  const{ allUsers, newUsers, activeUsers, pv, ip } = data;
+  const { allUsers, newUsers, activeUsers, pv, ip } = data;
   useEffect(() => {
     getTodayTraffic(appId).then(({ data }) => {
       setData(data);
@@ -25,7 +25,7 @@ export const TodayTrafficData: React.FC<TodayTrafficDataIn> = ({ appId }) => {
   return (
     <Card
       title="今日流量">
-      <div className={styles.allStatus}>
+      <div>
         <div className={styles.statusNumWrap}>
           <TrafficItem
             title="用户总数"

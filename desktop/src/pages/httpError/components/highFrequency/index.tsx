@@ -50,6 +50,7 @@ export const HighFrequency = () => {
       title: '操作',
       width: 120,
       render: (_, record) => <a onClick={() => {
+        // 打开httpdetail组件，并传递参数
         showHttpDetail.publish({
           link: record.url,
           requestType: 'error',
@@ -60,7 +61,7 @@ export const HighFrequency = () => {
     },
   ];
 
-  const getData = async() => {
+  const getData = async () => {
     setLoading(true);
     const { data } = await getHttpErrorRank({
       appId: active,
@@ -76,7 +77,7 @@ export const HighFrequency = () => {
   };
 
   useEffect(() => {
-    if(active){
+    if (active) {
       getData();
     }
   }, [active, day]);

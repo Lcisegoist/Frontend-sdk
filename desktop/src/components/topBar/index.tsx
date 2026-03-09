@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import { Card } from '@/src/components';
 import { getWebVisitTop } from '@/src/api';
 import { useEchart } from '@/src/hooks';
-interface TopBarIn{
+interface TopBarIn {
   appId: string;
   title: string;
   topKey: TopKeys;
@@ -17,6 +17,7 @@ export const TopBar: React.FC<TopBarIn> = ({ title, appId, topKey }) => {
       top: 10,
       type: topKey,
     }).then(({ data }) => {
+      console.log(data);
       const values = data.map((item) => Number(item.value));
       const labels = data.map((item) => item.label);
       const maxValue = Math.max(...values);

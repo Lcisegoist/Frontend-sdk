@@ -3,9 +3,10 @@ import * as sequelize from 'sequelize';
 import { AppModel, AppModelIn } from './type';
 
 export default class AppMysqlService extends Service {
-  private async getModel(): Promise<sequelize.ModelCtor<sequelize.Model<AppModelIn>>> {
+  private async getModel(): Promise<sequelize.ModelCtor<sequelize.Model<any>>> {
     const tableName = 'app';
-    const model = this.app.model.define(tableName, AppModel);
+    // 使用 any 绕过 Sequelize 版本类型冲突问题
+    const model = (this.app.model as any).define(tableName, AppModel as any);
     const isExist = await this.service.redis.cache.getTableIsCreate(tableName);
     if (!isExist) {
       await model.sync();
@@ -26,7 +27,7 @@ export default class AppMysqlService extends Service {
     }
   }
 
-  async getIsUseApps(): Promise<string[]|undefined> {
+  async getIsUseApps(): Promise<string[] | undefined> {
     try {
       const model = await this.getModel();
       const result = await model.findAll({

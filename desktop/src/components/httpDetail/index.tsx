@@ -1,3 +1,4 @@
+// httpdetail组件，用在httperror页面展开详情
 import React, { useEffect, useState } from 'react';
 import { Drawer, Table } from 'antd';
 import { getHttpList } from '@/src/api';
@@ -8,8 +9,8 @@ import { httpTableColumns } from '@/src/components/httpTableColumns';
 const initQuery = {
   from: 1,
   size: 10,
-  sorterName: '',
-  sorterKey: null,
+  sorterName: '@timestamp',
+  sorterKey: 'descend',
   link: '',
   beginTime: '',
   endTime: '',
@@ -43,8 +44,8 @@ export const HttpDetail = () => {
     };
     setQuery(parmas);
   };
-
-  const search = async(searchQuery: GetHttpListReq) => {
+  // search事件在query发生变化时触发，而改变table会触发onTableChange事件，这会改变query
+  const search = async (searchQuery: GetHttpListReq) => {
     setLoading(true);
     const { data: { total, data } } = await getHttpList(searchQuery);
     setTotal(total);
@@ -55,8 +56,9 @@ export const HttpDetail = () => {
     setLoading(false);
   };
 
+  // 这里订阅
   useEffect(() => {
-    if(active){
+    if (active) {
       showHttpDetail.subscribe((data) => {
         setOpen(true);
         setQuery({
@@ -72,11 +74,11 @@ export const HttpDetail = () => {
   }, [active]);
 
   useEffect(() => {
-    if(open){
+    if (open) {
       search({
         ...query,
-        sorterName: query.sorterKey ? query.sorterName : '',
-        sorterKey: query.sorterKey ? query.sorterKey === 'ascend' ? 'asc' : 'desc' : '',
+        sorterName: query.sorterKey ? query.sorterName : '@timestamp',
+        sorterKey: query.sorterKey ? query.sorterKey === 'ascend' ? 'asc' : 'desc' : 'desc',
       });
     }
   }, [query, open]);
@@ -85,7 +87,7 @@ export const HttpDetail = () => {
     <Drawer
       title="接口详情"
       open={open}
-      width={'80%'}
+      width={'75%'}
       onClose={() => {
         setOpen(false);
       }}
@@ -96,7 +98,7 @@ export const HttpDetail = () => {
       }}>
         <Table
           key="_id"
-          sticky
+          // sticky
           style={{
             top: -16,
           }}

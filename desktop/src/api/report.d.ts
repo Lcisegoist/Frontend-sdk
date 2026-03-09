@@ -1,4 +1,4 @@
-interface UaMsg{
+interface UaMsg {
   /** 浏览器名称 */
   browserName?: string;
   /** 浏览器版本号 */
@@ -15,16 +15,27 @@ interface UaMsg{
   deviceModel?: string;
   ua?: string;
 }
-interface IpMsg{
+interface IpMsg {
   ip?: string;
   province?: string;
   city?: string;
   country?: string;
 }
-interface UserMsg{
+interface UserMsg {
   userTimeStamp: number;
   markUserId: string;
   userId: string;
 }
+
+interface PageMsg {
+  pageUrl: string;
+  pageTitle: string;
+  pageReferrer: string;
+  pagePath: string;
+  pageQuery: string;
+  pageHash: string;
+  pageState: string;
+}
+
 type PublicMsg = PageMsg & UserMsg & UaMsg & IpMsg
 

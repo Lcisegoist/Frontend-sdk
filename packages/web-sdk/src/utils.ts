@@ -1,3 +1,7 @@
+/**
+ * 生成短UUID,由8位随机字符串和时间戳组成
+ * @returns 短UUID
+ **/
 export const generateShortUUID = () => {
   const characters = 'abcdefghijklmnopqrstuvwxyz0123456789';
   let shortUUID = '';
@@ -11,8 +15,8 @@ export const generateShortUUID = () => {
 };
 
 export const getUrlQuery = () => {
-  const isHash = location.hash;
-  if(isHash){
+  const isHash = location.hash; // eg：#/user?id=123&name=张三
+  if (isHash) {
     const link = location.hash.replace('#', '');
     const [pageUrl, query] = link.split('?');
     return {
@@ -20,7 +24,7 @@ export const getUrlQuery = () => {
       query: query || '',
       domain: location.host,
     };
-  }else{
+  } else {
     return {
       query: location.search.replace('?', '') || '',
       pageUrl: location.pathname,

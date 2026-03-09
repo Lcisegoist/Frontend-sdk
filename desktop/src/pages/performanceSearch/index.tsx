@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Button, DatePicker, Form, Input, Radio, Table } from 'antd';
+import { Button, DatePicker, Form, Input, message, Radio, Table } from 'antd';
 import type { TableColumnsType } from 'antd';
 import dayjs from 'dayjs';
 import { Detail } from './components/detail';
@@ -32,10 +32,11 @@ const PerformanceSearch = () => {
     sorterKey: null,
   });
 
+  const { pageUrl, date, whiteTime } = form.getFieldsValue();
+
   const [total, setTotal] = useState(0);
 
-  const toSearch = async() => {
-    const { pageUrl, date, whiteTime } = form.getFieldsValue();
+  const toSearch = async () => {
     const query = {
       from: 1,
       size: defaultSize,
@@ -94,12 +95,12 @@ const PerformanceSearch = () => {
       current: pagination.current,
       pageSize: pagination.pageSize,
     });
-    if(sorter.order){
+    if (sorter.order) {
       setSorter({
         sorterName: sorter.field,
         sorterKey: sorter.order,
       });
-    }else{
+    } else {
       setSorter({
         sorterName: '',
         sorterKey: null,
@@ -108,7 +109,7 @@ const PerformanceSearch = () => {
     search(query);
   };
 
-  const search = async(searchQuery: GetPerformanceReq) => {
+  const search = async (searchQuery: GetPerformanceReq) => {
     setLoading(true);
     const { data: { total, data } } = await getPerformance(searchQuery);
     setTotal(total);
@@ -211,7 +212,7 @@ const PerformanceSearch = () => {
   ];
 
   useEffect(() => {
-    if(active){
+    if (active) {
       toReset();
     }
   }, [active]);
@@ -235,7 +236,9 @@ const PerformanceSearch = () => {
           label="日期"
           initialValue={[dayjs(), dayjs()]}
         >
-          <DatePicker.RangePicker/>
+          <DatePicker.RangePicker
+            disabledDate={(current) => current.isAfter(dayjs())}
+          />
         </Form.Item>
         <Form.Item
           name="whiteTime"
@@ -251,12 +254,22 @@ const PerformanceSearch = () => {
         </Form.Item>
         <Form.Item>
           <Button
-            onClick={toReset}>重置</Button>
+            onClick={() => {
+              toReset();
+              message.success('重置成功');
+            }}>重置</Button>
         </Form.Item>
         <Form.Item>
           <Button
             type="primary"
-            onClick={toSearch}>查询</Button>
+            onClick={() => {
+              toSearch();
+              if (pageUrl) {
+                message.success('查询成功');
+              } else {
+                message.error('请输入url');
+              }
+            }}>查询</Button>
         </Form.Item>
       </Form>
 

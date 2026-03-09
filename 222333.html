@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <title>SDK 测试页面</title>
+</head>
+<body>
+  <h1>前端监控 SDK 测试</h1>
+  <button id="btn1">点击测试</button>
+  <button id="btn2">触发错误</button>
+  <button id="btn3">触发HTTP错误(404)</button>
+  
+  <script src="./packages/web-sdk/dist/umd/web-sdk.min.js"></script>
+  <script>
+    // 初始化监控 SDK
+    new Monitor({
+      appId: 'xu0acn7v1772249438861',  // 对应你在后台创建的 App ID
+      api: 'http://localhost:7001/report',  // 后端上报接口
+      cacheMax: 1,  // 测试用：立即上报（避免缓存满10条才上报）
+      webVitalsTimeouts: 3000,
+    });
+
+    // 测试点击事件 
+    document.getElementById('btn1').addEventListener('click', () => {
+      console.log('按钮1被点击');
+    });
+
+    // 测试 JS 错误
+    document.getElementById('btn2').addEventListener('click', () => {
+      throw new TypeError('typeerror');
+    });
+
+    // 测试 HTTP 错误（会产生 requestType=error，status=404）
+    document.getElementById('btn3').addEventListener('click', async () => {
+      // 该路径在 service 端没有路由，正常情况下会返回 404
+      await fetch('http://localhost:7001/__not_found__');
+    });
+  </script>
+</body>
+</html>

@@ -12,7 +12,8 @@ export const HttpErrorDayLine = () => {
   const { active } = useSelector((state: RootState) => state.app);
   const [date, setDate] = useState<[dayjs.Dayjs, dayjs.Dayjs]>([dayjs().add(-31, 'day'), dayjs()]);
 
-  const getData = async() => {
+  const getData = async () => {
+    // data：[label,value]结构的二维数组
     const { data } = await getHttpErrorRang({
       appId: active,
       beginTime: date[0].format('YYYY-MM-DD:00:00:00'),
@@ -38,6 +39,7 @@ export const HttpErrorDayLine = () => {
       },
       legend: {
         data: ['异常数'],
+        left: 'left',
       },
       tooltip: {
         trigger: 'axis',
@@ -62,7 +64,7 @@ export const HttpErrorDayLine = () => {
           axisPointer: {
             type: 'shadow',
           },
-          boundaryGap: false,
+          boundaryGap: false, // 取消坐标轴默认的留白
         },
       ],
       yAxis: [
@@ -94,8 +96,8 @@ export const HttpErrorDayLine = () => {
             ]),
           },
           tooltip: {
-            valueFormatter: function(value) {
-              return `${value }`;
+            valueFormatter: function (value) {
+              return `${value}`;
             },
           },
           data: yAxis,
@@ -105,7 +107,7 @@ export const HttpErrorDayLine = () => {
     setOption(option);
   };
   useEffect(() => {
-    if(active && date){
+    if (active && date) {
       getData();
     }
   }, [active, date]);

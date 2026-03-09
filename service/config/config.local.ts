@@ -7,7 +7,7 @@ export default () => {
       {
         dialect: 'mysql',
         host: '127.0.0.1',
-        port: 3306,
+        port: 3307,
         database: 'database_development',
         password: '123456',
         define: {

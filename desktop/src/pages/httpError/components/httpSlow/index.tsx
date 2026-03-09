@@ -1,9 +1,8 @@
 import React, { useEffect, useState } from 'react';
-import { Radio, Table } from 'antd';
+import { Card, Radio, Table } from 'antd';
 import type { TableColumnsType } from 'antd';
 import { useSelector } from 'react-redux';
 import dayjs from 'dayjs';
-import { Card } from '@/src/components';
 import { getHttpDoneRank } from '@/src/api';
 import { RootState } from '@/src/models/store';
 import { TableItem } from '@/src/components/tableItem';
@@ -68,7 +67,7 @@ export const HttpSlow = () => {
     },
   ];
 
-  const getData = async() => {
+  const getData = async () => {
     setLoading(true);
     const { data } = await getHttpDoneRank({
       appId: active,
@@ -85,15 +84,16 @@ export const HttpSlow = () => {
   };
 
   useEffect(() => {
-    if(active){
+    if (active) {
       getData();
     }
   }, [active, day]);
 
   return (
     <Card
+      style={{ boxShadow: '0px 1px 5px 0px rgba(0, 21, 41, 0.11)' }}
       title="慢响应Top50"
-      prefixHeadRight={
+      extra={
         <Radio.Group
           value={day}
           onChange={(e) => {

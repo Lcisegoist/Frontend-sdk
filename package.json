@@ -9,11 +9,8 @@
     "build": "lerna run build",
     "build-doc": "dumi build",
     "bootstrap": "lerna bootstrap",
-    "publish": "lerna publish from-package --yes"
-  },
-  "gitHooks": {
-    "pre-commit": "lint-staged",
-    "commit-msg": "commitlint -eGIT_classnamesPARAMS $"
+    "publish": "lerna publish from-package --yes",
+    "prepare": "husky install"
   },
   "lint-staged": {
     "*.{js,jsx,ts,tsx}": [

@@ -1,23 +1,17 @@
-import bcrypt from 'bcrypt';
+import bcrypt from 'bcryptjs';
 
 const SaltRounds = 5;
 
 // 加密密码
 export async function encryptPassword(plainPassword: string): Promise<string> {
-  try {
-    const hashedPassword = await bcrypt.hash(plainPassword, SaltRounds);
-    return hashedPassword;
-  } catch (error) {
-    throw error;
-  }
+
+  const hashedPassword = await bcrypt.hash(plainPassword, SaltRounds);
+  return hashedPassword;
 }
 
 // 验证密码
 export async function comparePassword(enteredPassword: string, hashedPassword: string): Promise<boolean> {
-  try {
-    const result = await bcrypt.compare(enteredPassword, hashedPassword);
-    return result;
-  } catch (error) {
-    throw error;
-  }
+
+  const result = await bcrypt.compare(enteredPassword, hashedPassword);
+  return result;
 }

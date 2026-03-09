@@ -1,14 +1,15 @@
-version: "0.1" 
 services:
-  mysql: 
+  mysql:
     image: mysql:5.7
     environment:
       - "MYSQL_ROOT_PASSWORD=123456"
       - "MYSQL_DATABASE=database_development"
       - "TZ=Asia/Shanghai"
     command: --character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_ci
-    ports: 
-      - 3306:3306
+    ports:
+      - 3307:3306
+    volumes:
+      - mysql_data:/var/lib/mysql
   zookeeper:
     image: wurstmeister/zookeeper
     ports:
@@ -19,8 +20,9 @@ services:
       - "9092:9092"
     environment:
       KAFKA_ZOOKEEPER_CONNECTION_TIMEOUT_MS: 30000
-      KAFKA_ADVERTISED_HOST_NAME: ${hostIP}
-      KAFKA_ZOOKEEPER_CONNECT: ${hostIP}:2181
+      # For local dev (Windows/macOS/Linux): default to localhost if hostIP isn't set
+      KAFKA_ADVERTISED_HOST_NAME: ${hostIP:-localhost}
+      KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181 # 使用服务名称连接Zookeeper
     depends_on:
       - zookeeper
   elasticsearch:
@@ -29,6 +31,8 @@ services:
       - "9200:9200"
     environment:
       - discovery.type=single-node
+    volumes:
+      - es_data:/usr/share/elasticsearch/data
   kibana:
     image: docker.elastic.co/kibana/kibana:7.17.0
     ports:
@@ -36,7 +40,14 @@ services:
     environment:
       - ELASTICSEARCH_URL=http://elasticsearch:9200
       - I18N_LOCALE=zh-CN
-  redis: 
+  redis:
     image: redis:3.2
-    ports: 
+    ports:
       - "6379:6379"
+    volumes:
+      - redis_data:/data
+
+volumes:
+  mysql_data:
+  es_data:
+  redis_data:

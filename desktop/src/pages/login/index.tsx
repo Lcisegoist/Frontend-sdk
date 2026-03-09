@@ -1,7 +1,6 @@
 import React, { useState }from 'react';
 import { Input, message as Message, Modal } from 'antd';
 import { useNavigate } from 'react-router';
-import { useDispatch } from 'react-redux';
 import css from './index.module.less';
 import { login, register } from '@/src/api/index';
 enum ActionType{

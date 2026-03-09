@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <title>SDK 测试页面</title>
+</head>
+<body>
+  <h1>前端监控 SDK 测试</h1>
+  <button id="btn1">点击测试</button>
+  <button id="btn2">触发错误</button>
+  
+  <script src="./packages/web-sdk/dist/umd/web-sdk.min.js"></script>
+  <script>
+    // 初始化监控 SDK
+    new Monitor({
+      appId: '0tytkqts1772011084244',  // 对应你在后台创建的 App ID
+      api: 'http://localhost:7001/report',  // 后端上报接口
+      cacheMax: 10,  // 缓存达到10条后上报
+      webVitalsTimeouts: 3000,
+    });
+
+    // 测试点击事件
+    document.getElementById('btn1').addEventListener('click', () => {
+      console.log('按钮1被点击');
+    });
+
+    // 测试 JS 错误
+    document.getElementById('btn2').addEventListener('click', () => {
+      throw new Error('测试JS错误');
+    });
+  </script>
+</body>
+</html>

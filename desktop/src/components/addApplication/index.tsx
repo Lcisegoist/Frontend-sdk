@@ -1,10 +1,12 @@
+// 添加app组件卡片
+
 import React, { useState } from 'react';
 import { Modal, Form, Radio, Input, message } from 'antd';
 import { createApp } from '@/src/api';
 import { AppTypes, AppType } from '@/src/constants';
 import { useAppStore } from '@/src/hooks';
 
-interface AddApplicationIn{
+interface AddApplicationIn {
   open: boolean;
   onClose: () => void;
 }
@@ -19,7 +21,7 @@ export const AddApplication: React.FC<AddApplicationIn> = ({ open, onClose }) =>
     <Modal
       open={open}
       destroyOnClose
-      onOk={async() => {
+      onOk={async () => {
         await form.validateFields();
         setLoading(true);
         await createApp(form.getFieldsValue());
@@ -29,6 +31,7 @@ export const AddApplication: React.FC<AddApplicationIn> = ({ open, onClose }) =>
         onClose();
       }}
       onCancel={onClose}
+      // loading用于锁定按钮防止重复提交
       okButtonProps={{
         loading,
       }}

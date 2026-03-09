@@ -2,7 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom/client';
 import { ConfigProvider } from 'antd';
 import zhCN from 'antd/locale/zh_CN';
-import { Monitor } from './sdk';
+import { Monitor } from '@frontend-watch-dog/web-sdk';
 import App from '@/src/app';
 
 new Monitor({
@@ -12,9 +12,9 @@ new Monitor({
   webVitalsTimeouts: 10000,
 });
 
-setTimeout(() => {
-  throw Error(1);
-}, 10);
+// setTimeout(() => {
+//   throw Error();
+// }, 10);
 const root = ReactDOM.createRoot(document.getElementById('root'));
 
 // const xhr = new XMLHttpRequest();

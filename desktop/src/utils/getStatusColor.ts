@@ -1,3 +1,4 @@
+// 根据不同性能标准返回不同评估结果的颜色
 const COLOR = ['#1f8800', '#49de78', '#f9aa35', '#c33300'];
 
 const PerformanceRange = {
@@ -14,8 +15,8 @@ const PerformanceRange = {
 export const getStatusColor = (score: number, key: PerformanceInKey) => {
   const range = PerformanceRange[key] || [];
   let index = 0;
-  while(index < range.length){
-    if(score < range[index]){
+  while (index < range.length) {
+    if (score < range[index]) {
       return COLOR[index];
     }
     index++;

@@ -23,13 +23,13 @@ const HttpSearch = () => {
   });
 
   const [sorter, setSorter] = useState({
-    sorterName: '',
-    sorterKey: null,
+    sorterName: '@timestamp',
+    sorterKey: 'descend' as any,
   });
 
   const [total, setTotal] = useState(0);
 
-  const toSearch = async() => {
+  const toSearch = async () => {
     const { url, date, requestType } = form.getFieldsValue();
     const query = {
       from: 1,
@@ -39,7 +39,7 @@ const HttpSearch = () => {
       beginTime: date ? date[0].format('YYYY-MM-DD 00:00:00') : undefined,
       endTime: date ? date[1].format('YYYY-MM-DD 23:59:59') : undefined,
       requestType,
-      sorterName: sorter.sorterKey ? sorter.sorterName : '',
+      sorterName: sorter.sorterKey ? sorter.sorterName : '@timestamp',
       sorterKey: sorter.sorterKey ? sorter.sorterKey === 'ascend' ? 'asc' : 'desc' : '',
     };
     search(query);
@@ -59,8 +59,8 @@ const HttpSearch = () => {
       pageSize: defaultSize,
     });
     setSorter({
-      sorterName: '',
-      sorterKey: '',
+      sorterName: '@timestamp',
+      sorterKey: 'descend' as any,
     });
     form.resetFields();
     search({
@@ -69,6 +69,9 @@ const HttpSearch = () => {
       size: defaultSize,
       beginTime: dayjs().format('YYYY-MM-DD 00:00:00'),
       endTime: dayjs().format('YYYY-MM-DD 23:59:59'),
+      // 默认按时间倒序
+      sorterName: '@timestamp',
+      sorterKey: 'desc',
     });
   };
 
@@ -89,12 +92,12 @@ const HttpSearch = () => {
       current: pagination.current,
       pageSize: pagination.pageSize,
     });
-    if(sorter.order){
+    if (sorter.order) {
       setSorter({
         sorterName: sorter.field,
         sorterKey: sorter.order,
       });
-    }else{
+    } else {
       setSorter({
         sorterName: '',
         sorterKey: null,
@@ -103,7 +106,7 @@ const HttpSearch = () => {
     search(query);
   };
 
-  const search = async(searchQuery: GetHttpListReq) => {
+  const search = async (searchQuery: GetHttpListReq) => {
     setLoading(true);
     const { data: { total, data } } = await getHttpList(searchQuery);
     setTotal(total);
@@ -115,7 +118,7 @@ const HttpSearch = () => {
   };
 
   useEffect(() => {
-    if(active){
+    if (active) {
       toReset();
     }
   }, [active]);
@@ -139,7 +142,7 @@ const HttpSearch = () => {
           label="日期"
           initialValue={[dayjs(), dayjs()]}
         >
-          <DatePicker.RangePicker/>
+          <DatePicker.RangePicker />
         </Form.Item>
         <Form.Item
           name="requestType"

@@ -1,4 +1,4 @@
-import { Models } from '@rematch/core';
+import { Models } from '@rematch/core'; // 推导模型类型
 import user from './user';
 import app from './app';
 
@@ -7,4 +7,5 @@ export interface RootModel extends Models<RootModel> {
   app: typeof app;
 }
 
+// 定义models实例
 export const models: RootModel = { user, app };

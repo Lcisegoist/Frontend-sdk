@@ -56,6 +56,7 @@ function Home() {
       <div
         className={stylels.left}
         style={{ width: leftSideWidth }}>
+        {/* menu圆角实现 */}
         <svg
           className={cls(stylels.prefixCircle, stylels.top)}
           width="35"
@@ -76,16 +77,14 @@ function Home() {
             fill="#4684ff"
             stroke="#4684ff" />
         </svg>
-        {
-          <div className={stylels.logo}>
-            <div className={stylels['logo-content']}>
-              <img
-                src={logoPng}
-                alt=""/>
-              <span>前端监控平台</span>
-            </div>
+        <div className={stylels.logo}>
+          <div className={stylels['logo-content']}>
+            <img
+              src={logoPng}
+              alt="" />
+            <span>前端监控平台</span>
           </div>
-        }
+        </div>
         <div className={stylels['menu-wrap']}>
           <Sider
             breakpoint="lg"
@@ -160,7 +159,7 @@ function Home() {
                   title: '确定退出登录？',
                   okText: '确定',
                   cancelText: '取消',
-                  onOk: async() => {
+                  onOk: async () => {
                     await loginOut();
                     dispatch.user.resetUserInfo();
                     navigate('/login');

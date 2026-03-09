@@ -6,23 +6,24 @@ const userModel = createModel<RootModel>()({
   state: {
     apps: [] as AppInfo[],
     isLoading: true,
+    // 新增app弹窗状态
     showAddModal: false,
     active: '',
   },
   reducers: {
-    updateAppModel(state, newState){
+    updateAppModel(state, newState) {
       return {
         ...state,
         ...newState,
       };
     },
-    updateActive(state, active){
+    updateActive(state, active) {
       return {
         ...state,
         active,
       };
     },
-    updateAddModalStatus(state, show){
+    updateAddModalStatus(state, show) {
       return {
         ...state,
         showAddModal: show,
@@ -35,13 +36,14 @@ const userModel = createModel<RootModel>()({
         isLoading: true,
       });
       const { code, data } = await getAppList();
-      if(data.length === 1){
+      if (data.length === 1) {
         dispatch.app.updateAppModel({
           isLoading: false,
           apps: code === 1000 ? data : [],
           active: data[0].appId,
         });
-      }else{
+      }
+      else {
         dispatch.app.updateAppModel({
           isLoading: false,
           apps: code === 1000 ? data : [],
@@ -49,7 +51,7 @@ const userModel = createModel<RootModel>()({
       }
     },
     // 首次进入应用
-    async getAppListOnce(){
+    async getAppListOnce() {
       dispatch.app.updateAppModel({
         isLoading: true,
       });

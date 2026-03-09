@@ -32,31 +32,32 @@ export const AvgPageData = () => {
   const getDataValue = (data: object) => {
     const obj = {};
     const keys = Object.keys(data);
-    for(const key of keys){
+    for (const key of keys) {
       const item = data[key];
-      if(item?.value || item.value === 0 || item.value === null){
+      if (item?.value || item.value === 0 || item.value === null) {
         obj[key] = item.value;
-      }else{
+      } else {
         obj[key] = item;
       }
     }
     return obj;
   };
 
-  const getData = async() => {
+  const getData = async () => {
     setLoading(true);
     const { data } = await getPageAvgPerformance({
       appId: active,
       beginTime: date[0].format('YYYY-MM-DD 00:00:00'),
       endTime: date[1].format('YYYY-MM-DD 23:59:59'),
     });
+    console.log(data);
     const res = data.map((item) => getDataValue(item));
     setData(res);
     setLoading(false);
   };
 
   useEffect(() => {
-    if(active && date){
+    if (active && date) {
       getData();
     }
   }, [active, date]);
@@ -69,11 +70,12 @@ export const AvgPageData = () => {
         value={searchUrl}
         onChange={(e) => {
           setUrl(e.target.value);
-        }}/>,
+        }} />,
       dataIndex: 'key',
       key: 'key',
       width: 200,
       fixed: 'left',
+      // 带有高亮的url路径
       render: (val) => <HighlightText
         searchTerm={searchUrl}
         text={val} />,

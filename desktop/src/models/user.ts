@@ -2,14 +2,14 @@ import { createModel } from '@rematch/core';
 import type { RootModel } from '.';
 import { getUserInfo } from '@/src/api';
 
-
+// 这里的RootModel是告诉createModel整个store的模型类型，从而在dispatch里提供类型提示
 const userModel = createModel<RootModel>()({
   state: {
     userInfo: {} as UserInfo,
     isLoading: false,
   },
   reducers: {
-    resetUserInfo(){
+    resetUserInfo() {
       return {
         userInfo: {} as UserInfo,
         isGetUserInfo: false,
@@ -25,7 +25,7 @@ const userModel = createModel<RootModel>()({
         },
       };
     },
-    setLoading(state, isLoading){
+    setLoading(state, isLoading) {
       return {
         ...state,
         isLoading,
@@ -36,7 +36,7 @@ const userModel = createModel<RootModel>()({
     async getUserInfo() {
       dispatch.user.setLoading(true);
       const { code, data } = await getUserInfo();
-      if(code === 1000){
+      if (code === 1000) {
         dispatch.user.setUserInfo(data);
       }
       dispatch.user.setLoading(false);

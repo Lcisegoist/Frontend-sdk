@@ -3,9 +3,9 @@ import React from 'react';
 import { Spin } from 'antd';
 import styles from './index.module.less';
 
-export const Loading: React.FC<{style?: React.CSSProperties}> = ({ style }) => (
+export const Loading: React.FC<{ style?: React.CSSProperties }> = ({ style }) => (
   <div
-    className={styles.laoding}
+    className={styles.loading}
     style={style}>
     <Spin style={{ height: 10 }} />
   </div>

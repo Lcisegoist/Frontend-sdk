@@ -1,4 +1,4 @@
-interface PageMsg {
+export interface PageMsg {
   /** 是否是首屏 */
   isFirst?: boolean;
   /** 域名 */
@@ -9,7 +9,7 @@ interface PageMsg {
   query: string;
 }
 
-interface PageStatus{
+export interface PageStatus {
   /** 页面进入时间 */
   inTime: number;
   /** 离开页面时间 */
@@ -18,12 +18,12 @@ interface PageStatus{
   residence: number;
 }
 
-interface ClickReportMsg{
+export interface ClickReportMsg {
   type: 'click';
   clickElement: string;
 }
 
-interface PerfamceReportMsg{
+export interface PerfamceReportMsg {
   type: 'performance';
   /** 页面Dns解析时长 */
   dnsTime: number;
@@ -43,7 +43,7 @@ interface PerfamceReportMsg{
   rescources: ResourceStatus[];
 }
 
-interface ResourceStatus{
+export interface ResourceStatus {
   /** 资源链接 */
   resource: string;
   /** 资源请求耗时 */
@@ -54,18 +54,18 @@ interface ResourceStatus{
   type: string;
 }
 
-type RequestReportMsg = {
+export type RequestReportMsg = {
   type: 'request';
   url: string;
   method: string;
-  reqHeaders: string;
-  reqBody: string;
+  reqHeaders: string; // 请求头
+  reqBody: string; // url参数
   status: number;
   requestType: 'done' | 'error';
-  cost: number;
+  cost: number; // 耗时
 }
 
-type JsErrorReportMsg = {
+export type JsErrorReportMsg = {
   type: 'jsError';
   message: string;
   colno: number;
@@ -74,22 +74,22 @@ type JsErrorReportMsg = {
   filename: string;
 }
 
-type LoadResourceErrorReportMsg = {
+export type LoadResourceErrorReportMsg = {
   type: 'loadResourceError';
   resourceType: string;
   resourceUrl: string;
 }
 
-type RejectErrorReportMsg = {
+export type RejectErrorReportMsg = {
   type: 'rejectError';
   reason: 'string';
 }
 
-interface PageStatusReportMsg extends PageStatus{
+export interface PageStatusReportMsg extends PageStatus {
   type: 'pageStatus';
 }
 
-type ReportItem =(
+export type ReportItem = (
   | PerfamceReportMsg
   | PageStatusReportMsg
   | RequestReportMsg
@@ -102,16 +102,17 @@ type ReportItem =(
   markUserId?: string;
   userId?: string;
   appId?: string;
-};
+}; // 上报类型+pageMsg+用户信息
 
 
-interface MonitorConfig{
+export interface MonitorConfig {
   appId: string;
-  cacheMax: number;
-  webVitalsTimeouts?: number;
+  cacheMax: number; // 缓存达到10条后上报
+  webVitalsTimeouts?: number; // 性能指标超时时间
   api: string;
 }
-interface Historys {
+// History的所有方法
+export interface Historys {
   back(): void;
   forward(): void;
   go(delta?: number): void;
@@ -119,4 +120,4 @@ interface Historys {
   replaceState(data: any, title: string, url?: string | null): void;
 }
 
-type Listener = () => void
+export type Listener = () => void

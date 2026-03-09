@@ -1,5 +1,4 @@
-import React, { useState, useEffect }from 'react';
-import dayjs from 'dayjs';
+import React, { useState, useEffect } from 'react';
 import { CopyOutlined } from '@ant-design/icons';
 import { Button, Tooltip, message } from 'antd';
 import cls from 'classnames';
@@ -10,7 +9,7 @@ import { updateAppStatus } from '@/src/api';
 import { copyTextToClipboard } from '@/src/utils';
 import { useAppStore, useAppInfo } from '@/src/hooks';
 
-interface AppItemIn{
+interface AppItemIn {
   appInfo: AppInfo;
 }
 export const AppItem: React.FC<AppItemIn> = ({ appInfo }) => {
@@ -23,7 +22,7 @@ export const AppItem: React.FC<AppItemIn> = ({ appInfo }) => {
 
   const { activeUsers, allUsers, newUsers, lastWeekActiveUers } = appStatus;
 
-  const updateApp = async() => {
+  const updateApp = async () => {
     await updateAppStatus({
       appId: appInfo.appId,
       id: appInfo.id,
@@ -94,6 +93,7 @@ export const AppItem: React.FC<AppItemIn> = ({ appInfo }) => {
           </>
       }
       {
+        // 停用mask
         appInfo.status !== 1 && (
           <div className={styles.mask}>
             <span style={{ 'textAlign': 'center', color: 'white' }}>
