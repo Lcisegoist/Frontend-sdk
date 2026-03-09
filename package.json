@@ -28,14 +28,14 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/luoguoxiong/frontend-watch-dog.git"
+    "url": "git+https://github.com/Lcisegoist/Frontend-sdk.git"
   },
   "author": "",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/luoguoxiong/frontend-watch-dog/issues"
+    "url": "https://github.com/Lcisegoist/Frontend-sdk/issues"
   },
-  "homepage": "https://github.com/luoguoxiong/frontend-watch-dog#readme",
+  "homepage": "https://github.com/Lcisegoist/Frontend-sdk#readme",
   "workspaces": [
     "packages/*"
   ]
