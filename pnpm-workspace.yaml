@@ -1,3 +1,4 @@
 packages:
   - 'packages/*'
+  - 'desktop'
 # packages下的所有目录都当作独立的包在根目录下的node_modules下被软链接

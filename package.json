@@ -23,7 +23,7 @@
     "@hulljs/eslint-config-hull-app": "^0.1.0",
     "conventional-changelog-angular-bitbucket": "^1.2.0",
     "husky": "^8.0.1",
-    "lerna": "4.0.0",
+    "lerna": "9.0.7",
     "lint-staged": "^10.0.7"
   },
   "repository": {
@@ -37,6 +37,7 @@
   },
   "homepage": "https://github.com/Lcisegoist/Frontend-sdk#readme",
   "workspaces": [
-    "packages/*"
+    "packages/*",
+    "desktop"
   ]
 }

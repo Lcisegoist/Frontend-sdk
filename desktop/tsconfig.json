@@ -8,10 +8,12 @@
     "baseUrl": ".",
     "jsx": "react",
     "paths": {
-      "@/src/*": ["./src/*"]
-    }
+      "@/src/*": ["./src/*"],
+    },
+    "noEmit": true,  // 告诉 TypeScript 不要输出文件
+    "isolatedModules": true  // 建议添加
   },
   "files": ["./index.d.ts"],
   "include": ["src/**/*"],
-  "exclude": ["node_modules"]
+  "exclude": ["node_modules"],
 }

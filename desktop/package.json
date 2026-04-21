@@ -1,29 +1,26 @@
 {
   "name": "@blubiu/desktop",
   "version": "0.1.0",
+  "type": "module",
   "scripts": {
-    "dev": "hull dev",
-    "dev:vite": "hull dev --vite",
-    "build": "hull build",
-    "build:vite": "hull build  --vite",
-    "server": "hull server",
-    "server:vite": "hull server --vite"
+    "dev": "vite",
+    "build": "tsc && vite build",
+    "preview": "vite preview"
   },
   "devDependencies": {
-    "@hulljs/cli": "0.8.1",
-    "@hulljs/eslint-config-hull-app": "^0.1.0",
-    "@svgr/webpack": "^8.1.0",
     "@types/lodash": "^4.14.202",
     "@types/node": "^20.10.5",
     "@types/prismjs": "^1.26.3",
     "@types/react": "^18.0.9",
     "@types/react-dom": "^18.2.18",
     "@types/react-redux": "^7.1.33",
-    "core-js": "^3.35.1"
+    "@vitejs/plugin-react": "^4.2.1",
+    "typescript": "^5.3.3",
+    "vite": "^5.0.10"
   },
   "dependencies": {
     "@ant-design/icons": "^5.2.6",
-    "@frontend-watch-dog/web-sdk": "^0.0.1",
+    "@frontend-watch-dog/web-sdk": "workspace:^",
     "@rematch/core": "^2.2.0",
     "antd": "^5.x",
     "autoprefixer": "10.4.5",

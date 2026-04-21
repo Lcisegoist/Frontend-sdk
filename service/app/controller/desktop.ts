@@ -25,7 +25,7 @@ export default class DesktopController extends Controller {
     const token = creatJwtToken({
       userId: id,
     });
-    // 登录态一周后过期
+    // 登录态一天后过期
     this.ctx.cookies.set('BLUBIUTOKEN', token, {
       expires: dayjs().add(1, 'day').toDate(),
     });

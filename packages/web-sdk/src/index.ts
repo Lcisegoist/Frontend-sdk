@@ -121,7 +121,7 @@ export class Monitor {
       img.src = `${api}?data=${encodeURIComponent(JSON.stringify(this.reportStack))}&appId=${Monitor.config.appId}`;
     };
   }
-
+  // 对应toReport方法的PageMsg数据类型
   private getPageMsg = () => Object.assign({ isFirst: false }, getUrlQuery());
 
   private catchRouterChange = () => {
@@ -229,6 +229,7 @@ export class Monitor {
             type: 'jsError',
             message: error.message,
             stack: error.error.stack,
+            // 行列号是用来让后端Source map定位源码错误点的
             colno: error.colno,
             lineno: error.lineno,
             filename: error.filename,
@@ -246,7 +247,7 @@ export class Monitor {
       },
       true
     );
-
+    // promise异常
     window.addEventListener('unhandledrejection', (error) => {
       this.toReport({
         type: 'rejectError',
@@ -265,38 +266,38 @@ export class Monitor {
     const originOpen = xmlhttp.prototype.open;
 
     // 重写XMLHttpRequest的open方法，插入上报请求信息的逻辑
-    xmlhttp.prototype.open = function (args) {
+    xmlhttp.prototype.open = function (method: string, url: string) {
       const xml = this as XMLHttpRequest;
-      const url = args[1];
-      const method = args[0];
       const isGet = method.toLocaleLowerCase() === 'get';
+      // 去参，对一个url的重复请求只上报一次
       const reqUrl = isGet ? url.split('?')[0] : url;
 
       const config: RequestReportMsg = {
         type: 'request',
         url: reqUrl,
-        method: args[0].toLocaleLowerCase(),
+        method: method.toLocaleLowerCase(),
         reqHeaders: '',
         reqBody: '',
         status: 0,
         requestType: 'done',
         cost: 0,
       };
-
+      // url参数作为请求体上报
       config.reqBody = method.toLocaleLowerCase() === 'get' ? url.split('?')[1] : '';
 
-      let startTime;
+      let startTime = performance.now();
 
       const originSend = xml.send;
 
       const originSetRequestHeader = xml.setRequestHeader;
 
       const requestHeader = {};
+      // 拦截记录请求头
       xml.setRequestHeader = function (key: string, val: string) {
-        requestHeader[key] = val; // 偷窥记录请求头
+        requestHeader[key] = val;
         return originSetRequestHeader.apply(xml, [key, val]);
       };
-
+      // 拦截记录发送请求体
       xml.send = function (args: Document | XMLHttpRequestBodyInit) {
         if (args) {
           config.reqBody = typeof args === 'string' ? args : JSON.stringify(args);
@@ -320,20 +321,21 @@ export class Monitor {
       xml.addEventListener('loadstart', function (data: ProgressEvent<XMLHttpRequestEventTarget>) {
         startTime = performance.now();
       });
-      // xml.addEventListener('error', function(data: ProgressEvent<XMLHttpRequestEventTarget>){
+      // 再单独监听error事件没必要，因为readystatechange事件已经可以捕获到error事件，只要判断status即可
+      // xml.addEventListener('error', function (data: ProgressEvent<XMLHttpRequestEventTarget>) {
       //   console.log('error', config.url);
 
       //   config.requestType = 'error';
       //   config.status = this.status;
       //   config.cost = performance.now() - startTime;
       //   config.reqHeaders = JSON.stringify(requestHeader);
-      //   // monitor.toReport({
-      //   //   type: 'request',
-      //   //   ...monitor.getPageMsg(),
-      //   //   ...config,
-      //   // });
+      //   monitor.toReport({
+      //     type: 'request',
+      //     ...monitor.getPageMsg(),
+      //     ...config,
+      //   });
       // });
-      return originOpen.apply(this, args);
+      return originOpen.apply(this, arguments);
     };
   }
 
@@ -374,6 +376,7 @@ export class Monitor {
             const endTime = performance.now();
             data.cost = endTime - startTime;
             data.status = res.status;
+            // 如果服务器返回404 or 500错误并不会进入catch分支，只有网络错误才会
             data.requestType = res.ok ? 'done' : 'error';
             this.toReport({
               type: 'request',

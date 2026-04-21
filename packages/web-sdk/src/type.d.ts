@@ -59,7 +59,7 @@ export type RequestReportMsg = {
   url: string;
   method: string;
   reqHeaders: string; // 请求头
-  reqBody: string; // url参数
+  reqBody: string; // url参数如?a=1&b=2
   status: number;
   requestType: 'done' | 'error';
   cost: number; // 耗时
@@ -82,7 +82,7 @@ export type LoadResourceErrorReportMsg = {
 
 export type RejectErrorReportMsg = {
   type: 'rejectError';
-  reason: 'string';
+  reason: string;
 }
 
 export interface PageStatusReportMsg extends PageStatus {

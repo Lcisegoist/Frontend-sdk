@@ -17,7 +17,7 @@ enum BluBiuResponseCode {
 
 export const http = axios.create({
   baseURL: `${config.apiHost}/api/desktop`,
-  withCredentials: true,
+  withCredentials: true, // 请求自动携带baseURL的cookie
 });
 
 // 拦截器

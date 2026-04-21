@@ -1,4 +1,3 @@
-
 import React, { Suspense, lazy, ComponentType } from 'react';
 import { RouteObject } from 'react-router-dom';
 import { AppstoreOutlined, BarChartOutlined, OrderedListOutlined, FileSearchOutlined, RadarChartOutlined, MedicineBoxOutlined, ThunderboltOutlined, NodeIndexOutlined } from '@ant-design/icons';
